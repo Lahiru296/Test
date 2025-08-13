@@ -1,207 +1,90 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="utf-8"/>
-<title>Sri Lanka Travel Guide for Wedding Guests</title>
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-o+wUeTqp2q7RkFfBy/nZT2qJo8mpmcRuFHB4LOpzuP8=" crossorigin=""/>
+<!doctype html>
+<html><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sri Lanka Highlights — Flexible Guest Guide (EN/ES)</title>
 <style>
- body {font-family: Arial, sans-serif; margin:0; padding:0;}
- h1 {text-align:center; margin-top:20px;}
- #map {height: 600px; width: 100%; margin-top:20px;}
- table {width:100%; border-collapse:collapse; margin-top:20px;}
- th, td {border:1px solid #ddd; padding:8px;}
- th {background-color:#f2f2f2;}
- .container {padding:20px;}
+*{box-sizing:border-box}body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;background:#0b1320;color:#fff}
+a{color:#d9e7ff;text-decoration:none}
+header{position:sticky;top:0;left:0;right:0;padding:10px 20px;background:rgba(11,19,32,.8);backdrop-filter:saturate(140%) blur(8px);z-index:10;display:flex;gap:16px;align-items:center;justify-content:space-between}
+header .title{font-weight:800;letter-spacing:.2px}
+.lang-switch{display:flex;gap:8px;align-items:center}
+.lang-switch button{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);color:#fff;padding:6px 10px;border-radius:8px;cursor:pointer}
+.lang-switch button.active{background:#fff;color:#111}
+.hero{min-height:68vh;display:flex;align-items:flex-end;position:relative;padding:70px 6vw 36px}
+.hero .bg{position:absolute;inset:0;background-size:cover;background-position:center;filter:brightness(.7)}
+.hero .scrim{position:absolute;inset:0;background:linear-gradient(to top, rgba(0,0,0,.65), rgba(0,0,0,.15) 50%, rgba(0,0,0,0) 80%)}
+.container{position:relative;max-width:1100px}
+.card{background:rgba(15,23,42,.7);border:1px solid rgba(255,255,255,.08);padding:22px;border-radius:18px;backdrop-filter:blur(6px);box-shadow:0 10px 30px rgba(0,0,0,.35)}
+.h1{font-size:40px;font-weight:800;margin:6px 0 10px}
+.h2{font-size:28px;font-weight:800;margin:0 0 12px}
+.blurb{font-size:18px;opacity:.95;margin-bottom:10px}
+.badge{display:inline-block;padding:4px 10px;border-radius:999px;background:#e2e8f0;color:#111;font-weight:700;font-size:12px;margin:6px 8px 10px 0}
+.section{padding:24px 6vw}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+.tile{padding:14px;border-radius:16px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08)}
+.tile b{display:block;margin-bottom:6px}
+.tile ul{margin:8px 0 0 18px}
+.tile li{margin:4px 0}
+.photo{width:100%;height:180px;border-radius:12px;background-size:cover;background-position:center;margin-bottom:10px;border:1px solid rgba(255,255,255,.1)}
+.note{opacity:.8;font-size:13px;margin-top:6px}
+.footer{padding:30px 6vw;background:#0b1320}
+.i18n{display:none!important}
+body[data-lang='en'] .i18n.en{display:block!important}
+body[data-lang='es'] .i18n.es{display:block!important}
 </style>
 </head>
-<body>
-<div class="container">
-  <h1>Sri Lanka Travel Guide</h1>
-  <p>To help your friends and family explore Sri Lanka before and after your wedding (26&nbsp;June next year), we’ve highlighted some of the island’s most popular attractions, along with hotel and restaurant recommendations. Move your mouse over a marker on the interactive map to see what each region has to offer.</p>
-  <div id="map"></div>
+<body data-lang="en">
+<header>
+  <div class="title">
+    <span class="i18n en">Sri Lanka Highlights — Flexible Guest Guide</span>
+    <span class="i18n es">Lo imperdible de Sri Lanka — Guía flexible</span>
+  </div>
+  <div class="lang-switch">
+    <button id="btn-en" class="active">EN</button>
+    <button id="btn-es">ES</button>
+  </div>
+</header>
 
-  <h2>Hotel Recommendations</h2>
-  <table>
-    <thead>
-      <tr><th>Hotel</th><th>Location</th><th>Category</th><th>Highlights</th></tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>Galle&nbsp;Face&nbsp;Hotel</td>
-        <td>Colombo</td>
-        <td>Luxury</td>
-        <td>Historic seafront hotel from 1864 with elegant rooms, spa, infinity pool and lively bars【183730489486173†L71-L75】.</td>
-      </tr>
-      <tr>
-        <td>Cinnamon&nbsp;Red Colombo</td>
-        <td>Colombo</td>
-        <td>Mid‑range</td>
-        <td>Centrally located high‑rise with modern red‑and‑white interiors and a rooftop bar offering panoramic views【183730489486173†L409-L421】.</td>
-      </tr>
-      <tr>
-        <td>Srilax&nbsp;B&amp;B</td>
-        <td>Colombo</td>
-        <td>Budget</td>
-        <td>Affordable boutique B&amp;B above Café&nbsp;Kumbuk; airy rooms with crisp linens and a chilled vibe【183730489486173†L386-L399】.</td>
-      </tr>
-      <tr>
-        <td>Water&nbsp;Garden&nbsp;Sigiriya</td>
-        <td>Cultural&nbsp;Triangle</td>
-        <td>Luxury</td>
-        <td>Private villas with plunge pools overlooking paddy fields and Sigiriya rock; perfect for couples【183730489486173†L88-L92】.</td>
-      </tr>
-      <tr>
-        <td>Haldummulla Estate&nbsp;Bungalow</td>
-        <td>Hill Country</td>
-        <td>Mid‑range</td>
-        <td>Green‑roofed retreat on an organic tea estate; cosy cottages with fireplaces and home‑cooked meals【183730489486173†L115-L119】.</td>
-      </tr>
-    </tbody>
-  </table>
+<!-- HERO (use your own photo by adding hero-intro.jpg next to this file) -->
+<section class="hero">
+  <div class="bg" style="background-image:url('hero-intro.jpg'), url('https://commons.wikimedia.org/wiki/Special:FilePath/Galle%20Lighthouse%201.jpg?width=1600');"></div>
+  <div class="scrim"></div>
+  <div class="container">
+    <div class="card">
+      <div class="i18n en">
+        <div class="badge">Welcome</div>
+        <h1 class="h1">Plan your own dates — here’s what not to miss</h1>
+        <div class="blurb">This guide lists the best places, cultural highlights, beaches, safaris, where to eat, and where to stay — so guests can build a trip around the wedding or visit anytime.</div>
+        <div class="note">Tip: Replace the hero with your own photo by uploading <b>hero-intro.jpg</b> next to this file.</div>
+      </div>
+      <div class="i18n es">
+        <div class="badge">Bienvenidos</div>
+        <h1 class="h1">Elige tus fechas — lo que no puedes perderte</h1>
+        <div class="blurb">Aquí están los mejores lugares, sitios culturales, playas, safaris, dónde comer y dónde dormir, para que cada invitado arme su viaje cuando le convenga.</div>
+        <div class="note">Consejo: Cambia la foto principal subiendo <b>hero-intro.jpg</b> junto a este archivo.</div>
+      </div>
+    </div>
+  </div>
+</section>
 
-  <h2>Restaurant Recommendations</h2>
-  <table>
-    <thead>
-      <tr><th>Restaurant</th><th>Location</th><th>Cuisine / Highlights</th></tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>Upali’s</td>
-        <td>Colombo</td>
-        <td>Popular spot near Town Hall serving authentic Sri Lankan rice and curry; busy with locals at lunch【64294507454196†L123-L133】.</td>
-      </tr>
-      <tr>
-        <td>Ministry&nbsp;of&nbsp;Crab</td>
-        <td>Colombo</td>
-        <td>Fine‑dining seafood in the Dutch Hospital district; famous mud‑crabs up to 2&nbsp;kg and garlic‑bread gravy【64294507454196†L85-L94】.</td>
-      </tr>
-      <tr>
-        <td>Palmyrah</td>
-        <td>Colombo</td>
-        <td>Renuka Hotel’s dining room offering Jaffna dishes such as pittu, mutton curry and milk hoppers【64294507454196†L145-L150】.</td>
-      </tr>
-      <tr>
-        <td>Nuga&nbsp;Gama</td>
-        <td>Colombo</td>
-        <td>Rustic “village” restaurant in Cinnamon&nbsp;Grand where local cooks prepare traditional dishes in a leafy setting【773589279406418†L372-L379】.</td>
-      </tr>
-      <tr>
-        <td>Monsoon</td>
-        <td>Colombo</td>
-        <td>Trendy Park Street eatery serving Southeast Asian share plates by Indonesian chefs【64294507454196†L161-L170】.</td>
-      </tr>
-    </tbody>
-  </table>
-</div>
-
-<!-- Load Leaflet JS library -->
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-o+wUeTqp2q7RkFfBy/nZT2qJo8mpmcRuFHB4LOpzuP8=" crossorigin=""></script>
-<script>
- // Initialize map centred on Sri Lanka
- var map = L.map('map', {scrollWheelZoom: true}).setView([7.5, 80.7], 7);
- L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-   maxZoom: 18,
-   attribution: '© OpenStreetMap contributors'
- }).addTo(map);
-
- // Define locations with descriptions for popups
- var locations = [
-  {
-    name: 'Colombo',
-    coords: [6.9271, 79.8612],
-    html: `<h3>Colombo</h3>
-    <p><strong>Highlights:</strong> Explore the colonial-era Fort district with its churches, cafés and boutiques, then stroll along the oceanfront <em>Galle Face Green</em> and snack on <em>isso wade</em> (prawn fritters) or kottu roti from street vendors【168379731574383†L479-L499】. </p>
-    <p><strong>Recommended hotels:</strong> Galle Face Hotel (luxury), Cinnamon Red (mid‑range), Srilax B&B (budget).</p>
-    <p><strong>Recommended restaurants:</strong> Upali’s, Ministry of Crab, Palmyrah, Nuga Gama, Monsoon.</p>`
-  },
-  {
-    name: 'Sigiriya',
-    coords: [7.9569, 80.7598],
-    html: `<h3>Sigiriya</h3>
-    <p>This 200‑m‑high rock fortress features giant carved lion paws, frescoes on the Mirror Wall and lily‑covered ponds. It was built by King Kashyapa and rewards a dawn climb with sweeping views【168379731574383†L508-L517】.</p>
-    <p><strong>Nearby luxury stay:</strong> Water Garden Sigiriya with private villas overlooking the rock【183730489486173†L88-L92】.</p>`
-  },
-  {
-    name: 'Anuradhapura',
-    coords: [8.3114, 80.4037],
-    html: `<h3>Anuradhapura</h3>
-    <p>One of the island’s ancient capitals; cycle between ruined monasteries, gigantic dagobas and the sacred Sri Maha Bodhi tree, believed to be the world’s oldest documented tree【168379731574383†L531-L541】.</p>`
-  },
-  {
-    name: 'Polonnaruwa',
-    coords: [7.9403, 81.0152],
-    html: `<h3>Polonnaruwa</h3>
-    <p>Archaeological site with carved temples, stupas and a 40‑ft reclining Buddha; the Royal Ruins recall the city’s 13th‑century glory【168379731574383†L555-L566】.</p>`
-  },
-  {
-    name: 'Jaffna',
-    coords: [9.6615, 80.0255],
-    html: `<h3>Jaffna</h3>
-    <p>Experience Tamil culture at Jaffna Fort, admire the colourful Nallur Kandaswamy temple and feast on crab curry and mango‑rich desserts【168379731574383†L589-L600】.</p>`
-  },
-  {
-    name: 'Trincomalee',
-    coords: [8.5860, 81.2152],
-    html: `<h3>Trincomalee</h3>
-    <p>Home to turquoise beaches and coral reefs, plus the sacred Kandasamy Kovil temple and a deep natural harbour【168379731574383†L614-L620】.</p>`
-  },
-  {
-    name: 'Dambulla',
-    coords: [7.8560, 80.6519],
-    html: `<h3>Dambulla</h3>
-    <p>Visit the Rangiri Cave Temple’s five caves, filled with 150 Buddha statues and colourful wall paintings【482470121645407†L637-L643】.</p>`
-  },
-  {
-    name: 'Minneriya National Park',
-    coords: [8.0170, 80.8997],
-    html: `<h3>Minneriya National Park</h3>
-    <p>During the dry season (June‑Sept), herds of up to 300 elephants congregate at Minneriya’s watering holes for the spectacle known as the ‘Gathering’【168379731574383†L654-L665】.</p>`
-  },
-  {
-    name: 'Kandy',
-    coords: [7.2906, 80.6337],
-    html: `<h3>Kandy</h3>
-    <p>Take the train into the Hill Country to visit the Temple of the Sacred Tooth Relic and stroll around the lake; in July or August the <em>Esala Perahera</em> festival fills the city with dancers and elephants【168379731574383†L677-L686】.</p>`
-  },
-  {
-    name: 'Kumana National Park',
-    coords: [6.7740, 81.6454],
-    html: `<h3>Kumana National Park</h3>
-    <p>Birdwatchers flock to this 200‑hectare wetland reserve where some 255 species, including painted storks and spoonbills, nest in the mangroves; crocodiles and elephants are also present【168379731574383†L696-L707】.</p>`
-  },
-  {
-    name: 'Adam’s Peak (Sri Pada)',
-    coords: [6.8095, 80.4989],
-    html: `<h3>Adam’s Peak / Sri Pada</h3>
-    <p>A sacred mountain climbed by pilgrims who come to see the footprint-shaped indent believed by Buddhists to be the Buddha’s, and by others as Adam’s or Shiva’s foot. Ascend the 5,000 steps at night and watch the sunrise from December to May【168379731574383†L724-L745】.</p>`
-  },
-  {
-    name: 'Kalpitiya',
-    coords: [8.2376, 79.7566],
-    html: `<h3>Kalpitiya</h3>
-    <p>Remote peninsula ideal for kitesurfing (Oct–May) and dolphin watching; breezy fishing villages offer a laid‑back vibe【168379731574383†L752-L767】.</p>`
-  },
-  {
-    name: 'Arugam Bay',
-    coords: [6.8428, 81.8333],
-    html: `<h3>Arugam Bay</h3>
-    <p>Surfing hub on the east coast with relaxed guesthouses, surf schools and world‑class waves; the best swells are from April to October【168379731574383†L775-L789】.</p>`
-  },
-  {
-    name: 'Bentota (Wedding venue)',
-    coords: [6.4207, 80.0052],
-    html: `<h3>Bentota</h3>
-    <p>Your wedding will take place at the Cinnamon&nbsp;Bentota Beach hotel. In addition to the wedding festivities, guests can relax on Bentota’s wide sandy beaches and take river cruises among mangroves.</p>`
-  }
- ];
-
- // Create markers and attach hover events
- locations.forEach(function(loc) {
-    var marker = L.marker(loc.coords).addTo(map);
-    marker.bindPopup(loc.html, {maxWidth: 300});
-    marker.on('mouseover', function() { this.openPopup(); });
-    marker.on('mouseout', function() { this.closePopup(); });
- });
-</script>
-</body>
-</html>
+<!-- QUICK HIGHLIGHTS -->
+<section class="section">
+  <div class="card">
+    <div class="i18n en"><h2 class="h2">Top highlights — quick picks</h2></div>
+    <div class="i18n es"><h2 class="h2">Lo imperdible — selección rápida</h2></div>
+    <div class="grid">
+      <div class="tile">
+        <div class="photo" style="background-image:url('https://commons.wikimedia.org/wiki/Special:FilePath/The%20skyline%20of%20downtown%20Colombo%20from%20the%20Port%20City%20beach.jpg?width=1600')"></div>
+        <b>Colombo Skyline & Galle Face Green</b>
+        <div class="note"><a target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Galle+Face+Green+Colombo">Open in Google Maps</a></div>
+      </div>
+      <div class="tile">
+        <div class="photo" style="background-image:url('https://commons.wikimedia.org/wiki/Special:FilePath/Galle_Fort_Lighthouse_2018.jpg?width=1600')"></div>
+        <b>Galle Fort & Lighthouse</b>
+        <div class="note"><a target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Galle+Lighthouse">Open in Google Maps</a></div>
+      </div>
+      <div class="tile">
+        <div class="photo" style="background-image:url('https://commons.wikimedia.org/wiki/Special:FilePath/Mirissa_Beach_Sri_Lanka_2019.jpg?width=1600')"></div>
+        <b>Mirissa Beach & Whale Watching (seasonal)</b>
+        <div class="note"><a target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Mirissa+Beach">Open in Google Maps</a></div>
+      </d
